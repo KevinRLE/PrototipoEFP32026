@@ -11,58 +11,72 @@ import Controlador.*;
  * @author Meilyn Juleisy Garcia Lima9959-23-17838
  */
 public class clsCarrera {
-    private int percodigo;
-    private String pernombre;
-    private String perestado;
+    private int codigoCarrera;
+    private String nombreCarrera;
+    private String codigoFacultad;
+    private String estatusCarrera;
 
     public clsCarrera() {
     }
 
-    public clsCarrera(int percodigo) {
-        this.percodigo = percodigo;
+    public clsCarrera(int codigoCarrera) {
+        this.codigoCarrera = codigoCarrera;
     }
 
-    public clsCarrera(String pernombre, String perestado) {
-        this.pernombre = pernombre;
-        this.perestado = perestado;
+    public clsCarrera(String nombreCarrera, String codigoFacultad) {
+        this.nombreCarrera = nombreCarrera;
+        this.codigoFacultad = codigoFacultad;
     }
 
-    public clsCarrera(int percodigo, String pernombre, String perestado) {
-        this.percodigo = percodigo;
-        this.pernombre = pernombre;
-        this.perestado = perestado;
+    public clsCarrera(String nombreCarrera, String codigoFacultad, String estatusCarrera) {
+        this.nombreCarrera = nombreCarrera;
+        this.codigoFacultad = codigoFacultad;
+        this.estatusCarrera = estatusCarrera;
     }
 
-    public int getPercodigo() {
-        return percodigo;
+    public clsCarrera(int codigoCarrera, String nombreCarrera, String codigoFacultad, String estatusCarrera) {
+        this.codigoCarrera = codigoCarrera;
+        this.nombreCarrera = nombreCarrera;
+        this.codigoFacultad = codigoFacultad;
+        this.estatusCarrera = estatusCarrera;
     }
 
-    public void setPercodigo(int percodigo) {
-        this.percodigo = percodigo;
+    public int getCodigoCarrera() {
+        return codigoCarrera;
     }
 
-    public String getPernombre() {
-        return pernombre;
+    public String getCodigoFacultad() {
+        return codigoFacultad;
     }
 
-    public void setPernombre(String pernombre) {
-        this.pernombre = pernombre;
+    public String getEstatusCarrera() {
+        return estatusCarrera;
     }
 
-    public String getPerestado() {
-        return perestado;
+    public String getNombreCarrera() {
+        return nombreCarrera;
     }
 
-    public void setPerestado(String perEstado) {
-        this.perestado = perEstado;
+    public void setCodigoCarrera(int codigoCarrera) {
+        this.codigoCarrera = codigoCarrera;
+    }
+
+    public void setNombreCarrera(String nombreCarrera) {
+        this.nombreCarrera = nombreCarrera;
+    }
+
+    public void setCodigoFacultad(String codigoFacultad) {
+        this.codigoFacultad = codigoFacultad;
+    }
+
+    public void setEstatusCarrera(String estatusCarrera) {
+        this.estatusCarrera = estatusCarrera;
     }
 
     @Override
     public String toString() {
-        return "Perfil{" +
-                "perCodigo=" + percodigo +
-                ", perNombre=" + pernombre +
-                ", perEstado=" + perestado +
-                '}';
+        return "clsCarrera{" + "codigoCarrera=" + codigoCarrera + ", nombreCarrera=" + nombreCarrera + ", codigoFacultad=" + codigoFacultad + ", estatusCarrera=" + estatusCarrera + '}';
     }
+
+    
 }

@@ -351,8 +351,8 @@ public void configurarVisibilidadBotones(List<Integer> appsPermitidas) {
 
     private void frmMantenimientoPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frmMantenimientoPerfilesActionPerformed
         // TODO add your handling code here:
-        System.out.println("entre a mantenimiento perfiles");
-        frmMantenimientoPerfil ventana = new frmMantenimientoPerfil();
+        System.out.println("entre a mantenimiento Carreras");
+        frmMantenimientoCarrera ventana = new frmMantenimientoCarrera();
         jDesktopPane1.add(ventana);
         Dimension desktopSize = jDesktopPane1.getSize();
         Dimension FrameSize = ventana.getSize();

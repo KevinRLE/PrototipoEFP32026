@@ -7,14 +7,14 @@
  */
 package Vista.Carreras;
 
+import Controlador.Carreras.clsCarrera;
 import Vista.*;
 import Controlador.clsSeguridad;
 import Controlador.clsBitacora;
-import Controlador.clsPerfil;
 import Controlador.clsUsuarioConectado;
 import Modelo.BitacoraDAO;
 import Modelo.Conexion;
-import Modelo.PerfilDAO;
+import Modelo.Carreras.CarreraDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
@@ -88,19 +88,21 @@ bitacora.setUsucodigo(usuario);
         DefaultTableModel modelo = new DefaultTableModel();
     modelo.addColumn("Codigo Perfil");
     modelo.addColumn("Nombre Perfil");
-    modelo.addColumn("Estado");
+    modelo.addColumn("Nombre Facultad");
+    modelo.addColumn("Status");
 
     tablaPerfil.setModel(modelo);
 
-    PerfilDAO dao = new PerfilDAO();
-    clsBitacora bitacora = crearBitacora("Consulta perfiles");
-    List<clsPerfil> listaPerfiles = dao.obtenerPerfiles(bitacora);
+    CarreraDAO dao = new CarreraDAO();
+    clsBitacora bitacora = crearBitacora("Consulta carreraes");
+    List<clsCarrera> listaCarrera = dao.obtenerCarreras(bitacora);
 
-    String[] dato = new String[3];
-    for (clsPerfil p : listaPerfiles) {
-        dato[0] = String.valueOf(p.getPercodigo());
-        dato[1] = p.getPernombre();
-        dato[2] = p.getPerestado();
+    String[] dato = new String[4];
+    for (clsCarrera p : listaCarrera) {
+        dato[0] = String.valueOf(p.getCodigoCarrera());
+        dato[1] = p.getNombreCarrera();
+        dato[2] = p.getCodigoFacultad();
+        dato[3] = p.getEstatusCarrera();
         modelo.addRow(dato);
     }
     }
@@ -111,6 +113,7 @@ bitacora.setUsucodigo(usuario);
     {
         txtCodigo.setText("");
         txtNombre.setText("");
+        txtFacultad.setText(""); 
         txtEstado.setText(""); 
     }
 
@@ -143,8 +146,10 @@ bitacora.setUsucodigo(usuario);
         lb = new javax.swing.JLabel();
         label4 = new javax.swing.JLabel();
         label9 = new javax.swing.JLabel();
-        txtEstado = new javax.swing.JTextField();
+        txtFacultad = new javax.swing.JTextField();
         btnayuda = new javax.swing.JButton();
+        txtEstado = new javax.swing.JTextField();
+        label10 = new javax.swing.JLabel();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
         lb2.setText(".");
@@ -206,11 +211,11 @@ bitacora.setUsucodigo(usuario);
 
             },
             new String [] {
-                "ID", "Nombre", "Estado"
+                "ID", "Nombre", "Facultad", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -232,10 +237,10 @@ bitacora.setUsucodigo(usuario);
         label4.setText("ID a buscar");
 
         label9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        label9.setText("Estatus");
+        label9.setText("Facultad");
 
-        txtEstado.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        txtEstado.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtFacultad.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        txtFacultad.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         btnayuda.setText("?");
         btnayuda.addActionListener(new java.awt.event.ActionListener() {
@@ -243,6 +248,12 @@ bitacora.setUsucodigo(usuario);
                 btnayudaActionPerformed(evt);
             }
         });
+
+        txtEstado.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        txtEstado.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
+        label10.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        label10.setText("Estatus Carrera");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -279,19 +290,21 @@ bitacora.setUsucodigo(usuario);
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(label5)
                             .addComponent(label3)
-                            .addComponent(label9))
+                            .addComponent(label9)
+                            .addComponent(label10))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFacultad, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label1)
-                        .addGap(294, 592, Short.MAX_VALUE))
+                        .addGap(294, 570, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -318,10 +331,17 @@ bitacora.setUsucodigo(usuario);
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtFacultad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(label9)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(label10)))
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
@@ -347,12 +367,12 @@ bitacora.setUsucodigo(usuario);
         return;
     }
 
-    clsPerfil perfil = new clsPerfil();
-    perfil.setPercodigo(Integer.parseInt(txtCodigo.getText()));
+    clsCarrera carrera = new clsCarrera();
+    carrera.setCodigoCarrera(Integer.parseInt(txtCodigo.getText()));
 
-    PerfilDAO dao = new PerfilDAO();
-    clsBitacora bitacora = crearBitacora("Eliminar perfil");
-dao.eliminarPerfil(perfil, bitacora);
+    CarreraDAO dao = new CarreraDAO();
+    clsBitacora bitacora = crearBitacora("Eliminar carrera");
+    dao.eliminarCarrera(carrera, bitacora);
 
     JOptionPane.showMessageDialog(null, "Perfil eliminado");
 
@@ -363,20 +383,21 @@ dao.eliminarPerfil(perfil, bitacora);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        if(txtNombre.getText().isEmpty() || txtEstado.getText().isEmpty()){
+        if(txtNombre.getText().isEmpty() || txtFacultad.getText().isEmpty()){
     JOptionPane.showMessageDialog(null, "Complete los campos");
     return;
     } 
     
-    clsPerfil perfil = new clsPerfil();
-    perfil.setPernombre(txtNombre.getText());
-    perfil.setPerestado(txtEstado.getText());
+    clsCarrera carrera = new clsCarrera();
+    carrera.setNombreCarrera(txtNombre.getText());
+    carrera.setCodigoFacultad(txtFacultad.getText());
+    carrera.setEstatusCarrera(txtEstado.getText());
 
-    PerfilDAO dao = new PerfilDAO();
-    clsBitacora bitacora = crearBitacora("Insertar perfil");
-    dao.insertarPerfil(perfil, bitacora);
+    CarreraDAO dao = new CarreraDAO();
+    clsBitacora bitacora = crearBitacora("Insertar carrera");
+    dao.insertarCarrera(carrera, bitacora);
 
-    JOptionPane.showMessageDialog(null, "Perfil registrado");
+    JOptionPane.showMessageDialog(null, "Carrera registrado");
     
     
 
@@ -386,20 +407,21 @@ dao.eliminarPerfil(perfil, bitacora);
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
             // TODO add your handling code here:       
-        PerfilDAO dao = new PerfilDAO();
+        CarreraDAO dao = new CarreraDAO();
     if(txtBuscar.getText().isEmpty()){
     JOptionPane.showMessageDialog(null, "Ingrese un ID");
     return;
 }
     int id = Integer.parseInt(txtBuscar.getText());
 
-    clsBitacora bitacora = crearBitacora("Buscar perfil");
-clsPerfil perfil = dao.obtenerPerfilPorId(id, bitacora);
+    clsBitacora bitacora = crearBitacora("Buscar carrera");
+    clsCarrera carrera = dao.obtenerCarreraPorId(id, bitacora);
 
-    if(perfil != null){
-        txtCodigo.setText(String.valueOf(perfil.getPercodigo()));
-        txtNombre.setText(perfil.getPernombre());
-        txtEstado.setText(perfil.getPerestado());
+    if(carrera != null){
+        txtCodigo.setText(String.valueOf(carrera.getCodigoCarrera()));
+        txtNombre.setText(carrera.getNombreCarrera());
+        txtFacultad.setText(carrera.getCodigoFacultad());
+        txtEstado.setText(carrera.getEstatusCarrera());
     }else{
         JOptionPane.showMessageDialog(null, "Perfil no encontrado");
     }
@@ -414,14 +436,15 @@ clsPerfil perfil = dao.obtenerPerfilPorId(id, bitacora);
     
 
 
-    clsPerfil perfil = new clsPerfil();
-    perfil.setPercodigo(Integer.parseInt(txtCodigo.getText()));
-    perfil.setPernombre(txtNombre.getText());
-    perfil.setPerestado(txtEstado.getText());
+    clsCarrera carrera = new clsCarrera();
+    carrera.setCodigoCarrera(Integer.parseInt(txtCodigo.getText()));
+    carrera.setNombreCarrera(txtNombre.getText());
+    carrera.setCodigoFacultad(txtFacultad.getText());
+    carrera.setEstatusCarrera(txtEstado.getText());
 
-    PerfilDAO dao = new PerfilDAO();
-    clsBitacora bitacora = crearBitacora("Modificar perfil");
-dao.actualizarPerfil(perfil, bitacora);
+    CarreraDAO dao = new CarreraDAO();
+    clsBitacora bitacora = crearBitacora("Modificar carrera");
+    dao.actualizarCarrera(carrera, bitacora);
 
     JOptionPane.showMessageDialog(null, "Perfil modificado");
 
@@ -508,6 +531,7 @@ dao.actualizarPerfil(perfil, bitacora);
     private javax.swing.JButton btnayuda;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label1;
+    private javax.swing.JLabel label10;
     private javax.swing.JLabel label3;
     private javax.swing.JLabel label4;
     private javax.swing.JLabel label5;
@@ -519,6 +543,7 @@ dao.actualizarPerfil(perfil, bitacora);
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtFacultad;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
