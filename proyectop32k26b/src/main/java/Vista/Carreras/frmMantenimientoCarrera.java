@@ -156,6 +156,7 @@ bitacora.setUsucodigo(usuario);
         txtEstado = new javax.swing.JTextField();
         label10 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
         lb2.setText(".");
@@ -268,6 +269,15 @@ bitacora.setUsucodigo(usuario);
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jButton3.setText("Ayuda");
+        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -321,6 +331,8 @@ bitacora.setUsucodigo(usuario);
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(56, 56, 56)
                 .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -376,7 +388,9 @@ bitacora.setUsucodigo(usuario);
                         .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -518,7 +532,7 @@ bitacora.setUsucodigo(usuario);
             try {
                 conn = Conexion.getConnection();
                 report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
-                    + "C:\\Users\\WINDOWS\\Desktop\\Kev Uni\\PrototipoEFP32026\\proyectop32k26b\\src\\main\\java\\Reportes\\carreras.jasper");
+                    + "/src/main/java/Reportes/carreras.jrxml");
                     print = JasperFillManager.fillReport(report, p, conn);
                 JasperViewer view = new JasperViewer(print, false);
                     view.setTitle("Reporte Prueba");
@@ -528,6 +542,19 @@ bitacora.setUsucodigo(usuario);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            File archivo = new File("src\\main\\java\\ayudas\\ayuda_cxp.html");
+            java.awt.Desktop.getDesktop().browse(archivo.toURI());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                "No se pudo abrir la ayuda.",
+                "ERROR", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     public void habilitarBotones()
     {
@@ -573,6 +600,7 @@ bitacora.setUsucodigo(usuario);
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnayuda;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label10;
