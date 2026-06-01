@@ -54,7 +54,7 @@ public class CarreraDAO {
                 clsCarrera p = new clsCarrera();
                 p.setCodigoCarrera(rs.getInt("codigo_carrera"));
                 p.setNombreCarrera(rs.getString("nombre_carrera"));
-                p.setCodigFacultad(rs.getString("codigo_facultad"));
+                p.setCodigoFacultad(rs.getString("codigo_facultad"));
                 p.setEstatusCarrera(rs.getString("estatus_carrera"));
                 lista.add(p);
             }
@@ -83,7 +83,7 @@ public class CarreraDAO {
             stmt = conn.prepareStatement(SQL_INSERT);
 
             stmt.setString(1, carrera.getNombreCarrera());
-            stmt.setString(2, carrera.getCodigFacultad());
+            stmt.setString(2, carrera.getCodigoFacultad());
             stmt.setString(3, carrera.getEstatusCarrera());
 
             rows = stmt.executeUpdate();
@@ -111,7 +111,7 @@ public class CarreraDAO {
             stmt = conn.prepareStatement(SQL_UPDATE);
 
             stmt.setString(1, carrera.getNombreCarrera());
-            stmt.setString(1, carrera.getCodigFacultad());
+            stmt.setString(1, carrera.getCodigoFacultad());
             stmt.setString(2, carrera.getEstatusCarrera());
             stmt.setInt(3, carrera.getCodigoCarrera());
 
@@ -172,7 +172,7 @@ public class CarreraDAO {
                 carrera = new clsCarrera();
                 carrera.setCodigoCarrera(rs.getInt("codigo_carrera"));
                 carrera.setNombreCarrera(rs.getString("nombre_carrera"));
-                carrera.setCodigFacultad(rs.getString("codigo_facultad"));
+                carrera.setCodigoFacultad(rs.getString("codigo_facultad"));
                 carrera.setEstatusCarrera(rs.getString("estatus_carrera"));
             }
 
