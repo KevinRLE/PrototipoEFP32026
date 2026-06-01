@@ -1,7 +1,7 @@
 package Modelo.Carreras;
 
 import Modelo.*;
-import Controlador.clsPerfil;
+import Controlador.Carreras.clsCarrera;
 import Controlador.clsBitacora;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,19 +10,19 @@ import java.util.List;
 public class CarreraDAO {
 
     private static final String SQL_SELECT =
-            "SELECT percodigo, pernombre, perestado FROM perfiles";
+            "SELECT codigo_carrera, nombre_carrera, codigo_facultad, estatus_carrera FROM carreras";
 
     private static final String SQL_INSERT =
-            "INSERT INTO perfiles (pernombre, perestado) VALUES(?, ?)";
+            "INSERT INTO carreras(nombre_carrera, codigo_facultad, estatus_carrera) VALUES(?, ?, ?)";
 
     private static final String SQL_UPDATE =
-            "UPDATE perfiles SET pernombre=?, perestado=? WHERE percodigo=?";
+            "UPDATE carreras SET nombre_carrera=?, codigo_facultad=? , estatus_carrera=? WHERE codigo_carrera=?";
 
     private static final String SQL_DELETE =
-            "DELETE FROM perfiles WHERE percodigo=?";
+            "DELETE FROM carreras WHERE codigo_carrera=?";
 
     private static final String SQL_SELECT_ID =
-            "SELECT percodigo, pernombre, perestado FROM perfiles WHERE percodigo=?";
+            "SELECT codigo_carrera, nombre_carrera, codigo_facultad, estatus_carrera FROM carreras WHERE codigo_carrera=?";
 
 
     private static final String SQL_INSERT_BITACORA =
@@ -39,26 +39,27 @@ public class CarreraDAO {
 
 
     
-    public List<clsPerfil> obtenerPerfiles(clsBitacora bitacora) {
+    public List<clsCarrera> obtenerCarreras(clsBitacora bitacora) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<clsPerfil> lista = new ArrayList<>();
+        List<clsCarrera> lista = new ArrayList<>();
 
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
-
+//Esquema completo
             while (rs.next()) {
-                clsPerfil p = new clsPerfil();
-                p.setPercodigo(rs.getInt("percodigo"));
-                p.setPernombre(rs.getString("pernombre"));
-                p.setPerestado(rs.getString("perestado"));
+                clsCarrera p = new clsCarrera();
+                p.setCodigoCarrera(rs.getInt("codigo_carrera"));
+                p.setNombreCarrera(rs.getString("nombre_carrera"));
+                p.setCodigFacultad(rs.getString("codigo_facultad"));
+                p.setEstatusCarrera(rs.getString("estatus_carrera"));
                 lista.add(p);
             }
 
-            bitacora.setBitaccion("SELECT perfiles");
+            bitacora.setBitaccion("SELECT carreras");
             insertarBitacora(bitacora);
 
         } catch (SQLException e) {
@@ -72,7 +73,7 @@ public class CarreraDAO {
         return lista;
     }
 
-    public int insertarPerfil(clsPerfil perfil, clsBitacora bitacora) {
+    public int insertarCarrera(clsCarrera carrera, clsBitacora bitacora) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -81,12 +82,13 @@ public class CarreraDAO {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
 
-            stmt.setString(1, perfil.getPernombre());
-            stmt.setString(2, perfil.getPerestado());
+            stmt.setString(1, carrera.getNombreCarrera());
+            stmt.setString(2, carrera.getCodigFacultad());
+            stmt.setString(3, carrera.getEstatusCarrera());
 
             rows = stmt.executeUpdate();
 
-            bitacora.setBitaccion("INSERT perfil " + perfil.getPernombre());
+            bitacora.setBitaccion("INSERT carrera " + carrera.getNombreCarrera());
             insertarBitacora(bitacora);
 
         } catch (SQLException e) {
@@ -99,7 +101,7 @@ public class CarreraDAO {
         return rows;
     }
 
-    public int actualizarPerfil(clsPerfil perfil, clsBitacora bitacora) {
+    public int actualizarCarrera(clsCarrera carrera, clsBitacora bitacora) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -108,13 +110,14 @@ public class CarreraDAO {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_UPDATE);
 
-            stmt.setString(1, perfil.getPernombre());
-            stmt.setString(2, perfil.getPerestado());
-            stmt.setInt(3, perfil.getPercodigo());
+            stmt.setString(1, carrera.getNombreCarrera());
+            stmt.setString(1, carrera.getCodigFacultad());
+            stmt.setString(2, carrera.getEstatusCarrera());
+            stmt.setInt(3, carrera.getCodigoCarrera());
 
             rows = stmt.executeUpdate();
 
-            bitacora.setBitaccion("UPDATE perfil " + perfil.getPercodigo());
+            bitacora.setBitaccion("UPDATE carrera " + carrera.getCodigoCarrera());
             insertarBitacora(bitacora);
 
         } catch (SQLException e) {
@@ -127,7 +130,7 @@ public class CarreraDAO {
         return rows;
     }
 
-    public int eliminarPerfil(clsPerfil perfil, clsBitacora bitacora) {
+    public int eliminarCarrera(clsCarrera carrera, clsBitacora bitacora) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -136,11 +139,11 @@ public class CarreraDAO {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_DELETE);
 
-            stmt.setInt(1, perfil.getPercodigo());
+            stmt.setInt(1, carrera.getCodigoCarrera());
 
             rows = stmt.executeUpdate();
 
-            bitacora.setBitaccion("DELETE perfil " + perfil.getPercodigo());
+            bitacora.setBitaccion("DELETE carrera " + carrera.getCodigoCarrera());
             insertarBitacora(bitacora);
 
         } catch (SQLException e) {
@@ -153,11 +156,11 @@ public class CarreraDAO {
         return rows;
     }
 
-    public clsPerfil obtenerPerfilPorId(int id, clsBitacora bitacora) {
+    public clsCarrera obtenerCarreraPorId(int id, clsBitacora bitacora) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        clsPerfil perfil = null;
+        clsCarrera carrera = null;
 
         try {
             conn = Conexion.getConnection();
@@ -166,13 +169,14 @@ public class CarreraDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                perfil = new clsPerfil();
-                perfil.setPercodigo(rs.getInt("percodigo"));
-                perfil.setPernombre(rs.getString("pernombre"));
-                perfil.setPerestado(rs.getString("perestado"));
+                carrera = new clsCarrera();
+                carrera.setCodigoCarrera(rs.getInt("codigo_carrera"));
+                carrera.setNombreCarrera(rs.getString("nombre_carrera"));
+                carrera.setCodigFacultad(rs.getString("codigo_facultad"));
+                carrera.setEstatusCarrera(rs.getString("estatus_carrera"));
             }
 
-            bitacora.setBitaccion("SELECT perfil ID " + id);
+            bitacora.setBitaccion("SELECT carrera ID " + id);
             insertarBitacora(bitacora);
 
         } catch (SQLException e) {
@@ -183,7 +187,7 @@ public class CarreraDAO {
             Conexion.close(conn);
         }
 
-        return perfil;
+        return carrera;
     }
 
 
